@@ -2,7 +2,7 @@ import csv
 
 from django.core.management.base import BaseCommand
 
-from products.models import Product, Category
+from products.models import Product, Category, ProductCategory
 
 
 class Command(BaseCommand):
@@ -15,10 +15,12 @@ class Command(BaseCommand):
         python manage.py load_product_data
         """
 
-        with open('recipes/fixtures/ingredients.csv') as isfile:
+        with open('products/fixtures/products.csv') as isfile:
             reader = csv.reader(isfile)
             for row in reader:
-                title, category_title = row
+                product_title, category_title = row
                 category = Category.objects.get_or_create(title=category_title)
-                Product.objects.get_or_create(title=title, category=category)
+                product = Product.objects.get_or_create(title=product_title)
+                ProductCategory.objects.get_or_create(category_id=category[0].id, product_id=product[0].id)
+
 

@@ -18,6 +18,7 @@ class Command(BaseCommand):
         with open('recipes/fixtures/ingredients.csv') as isfile:
             reader = csv.reader(isfile)
             for row in reader:
-                title, category = row
-                Product.objects.get_or_create(title=title, unit=unit)
+                title, category_title = row
+                category = Category.objects.get_or_create(title=category_title)
+                Product.objects.get_or_create(title=title, category=category)
 

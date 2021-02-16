@@ -13,13 +13,21 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
 
 
-class ProductSerializer(serializers.ModelSerializer):
-    """Класс сериализатор продуктов."""
+class ProductReadSerializer(serializers.ModelSerializer):
+    """Класс сериализатор продуктов чтение."""
 
-    category = CategorySerializer(many=True)
+    category = CategorySerializer(read_only=True, many=True)
 
-    # def validated_category(self):
-    #     """Проверяем что колличестко категорий меньше 10"""
+    class Meta:
+        """Мета класс. Определяем модель и поля модели."""
+
+        fields = '__all__'  #('title', 'published', 'deleted')
+        model = Product
+
+class ProductWriteSerializer(serializers.ModelSerializer):
+
+    category = serializers.SlugRelatedField(queryset=Category.objects.all(),
+                                            slug_field='title', many=True)
 
     class Meta:
         """Мета класс. Определяем модель и поля модели."""

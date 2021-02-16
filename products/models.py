@@ -1,4 +1,5 @@
 """Модели приложения Products."""
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
@@ -19,11 +20,16 @@ class Product(models.Model):
 
     title = models.CharField(max_length=255,
                              verbose_name='Название товара')
+    price = models.IntegerField(validators=[MinValueValidator(0)])
     published = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     category = models.ManyToManyField(Category,
                                       through='ProductCategory',
                                       verbose_name='Категория')
+    # category_count = models.IntegerField(
+    #     validators=[MinValueValidator(1), MaxValueValidator(10)],
+    #     verbose_name='Счетчик категорий')
+
 
     def __str__(self):
         """Переопределяем строковое представление модели Product."""

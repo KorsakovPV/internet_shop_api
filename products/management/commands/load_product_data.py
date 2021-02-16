@@ -15,12 +15,20 @@ class Command(BaseCommand):
         python manage.py load_product_data
         """
 
-        with open('products/fixtures/products.csv') as isfile:
+        with open('products/fixtures/products2.csv') as isfile:
             reader = csv.reader(isfile)
+            category_dict = dict()
             for row in reader:
-                product_title, category_title = row
-                category = Category.objects.get_or_create(title=category_title)
-                product = Product.objects.get_or_create(title=product_title)
-                ProductCategory.objects.get_or_create(category_id=category[0].id, product_id=product[0].id)
+                product_title, price, category_title = row[0], row[1], row[2:]
+                product = Product.objects.get_or_create(title=product_title, price=price)[0]
+                # category_list = list()
+                for item in category_title:
+                    if item in category_dict.keys():
+                        category = category_dict[item]
+                    else:
+                        category = Category.objects.get_or_create(title=item)[0]
+                        category_dict[item] = category
+                    # category_list.append(category)
+                    ProductCategory.objects.get_or_create(category_id=category.id, product_id=product.id)
 
 

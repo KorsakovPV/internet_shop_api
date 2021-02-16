@@ -132,4 +132,4 @@ dmypy.json
 .idea
 
 *.ods*
-/products/fixtures/products.csv
+/products/fixtures/.~lock.products2.csv#

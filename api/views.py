@@ -42,7 +42,7 @@ class ProductViewSet(mixins.CreateModelMixin,
                      GenericViewSet):
     queryset = Product.objects.all()
     # serializer_class = ProductReadSerializer
-    
+
     def get_serializer_class(self):
         """Возвращает класс, который должен использоваться для сериализатора."""
         if self.action in ('list', 'retrieve'):
